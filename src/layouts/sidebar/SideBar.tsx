@@ -1,10 +1,7 @@
-
 import { SidebarToggle } from "../../../src/layouts/sidebar/SideBarToggle";
 import { SidebarHeader } from "../../layouts/sidebar/SideBarHeader";
 import { SidebarNav } from "../../layouts/sidebar/SideBarNav";
-import {sidebarRoutes} from '../../constants/routes';
-
-
+import { sidebarRoutes } from "../../Routes/routes";
 
 export const Sidebar = () => {
   return (
