@@ -41,7 +41,7 @@ export const AppRoutes = () =>
       element: <Login />,
     },
     {
-      element: <RequireAuth />, // 👈 Protege todo lo siguiente
+      element: <RequireAuth />, 
       children: [
         {
           path: "/",

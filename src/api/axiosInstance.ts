@@ -11,7 +11,7 @@ let isRefreshing = false;
 let refreshSubscribers: ((token: string) => void)[] = [];
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_FACTUS, // cámbialo por tu backend
+  baseURL: import.meta.env.VITE_API_FACTUS, 
 });
 
 const subscribeTokenRefresh = (cb: (token: string) => void) => {
