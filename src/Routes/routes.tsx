@@ -25,6 +25,12 @@ export const sidebarRoutes: RouteItem[] = [
     route: "/invoices",
     icon: <AppIcons.invoice/>,
   },
+  {
+    name: "Logout",
+    route: "/logout",
+    icon: <AppIcons.logout />,
+  },
+
 ];
 
 

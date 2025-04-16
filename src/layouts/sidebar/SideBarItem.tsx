@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
 
 type SidebarItemProps = {
   icon: ReactNode;
@@ -8,6 +9,20 @@ type SidebarItemProps = {
 };
 
 export const SidebarItem = ({ icon, name, route }: SidebarItemProps) => {
+  const { logout } = useAuth();
+  if (route === "/logout") {
+    return (
+      <li>
+        <button
+          onClick={logout}
+          className="flex w-full items-center gap-x-3.5 py-2 px-2.5 text-sm text-red-600 rounded-lg hover:bg-red-100"
+        >
+          {icon}
+          {name}
+        </button>
+      </li>
+    );
+  }
   return (
     <li>
       <Link
