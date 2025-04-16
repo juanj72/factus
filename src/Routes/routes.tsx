@@ -1,11 +1,11 @@
 import { AppIcons } from "../icons";
-import { useRoutes,Navigate } from "react-router-dom";
+import { useRoutes, Navigate } from "react-router-dom";
 import { MainContent } from "../layouts/MainContent";
 import { Home } from "../pages/Home";
 import { Invoices } from "../pages/Invoices";
 import { Login } from "../pages/Login";
 import { RequireAuth } from "../../src/Routes/RequiredAuth";
-
+import { CreateInvoice } from "../pages/CreateInvoice";
 
 export type RouteItem = {
   name: string;
@@ -15,24 +15,26 @@ export type RouteItem = {
 
 export const sidebarRoutes: RouteItem[] = [
   {
-    name: "Home",
+    name: "Inicio",
     route: "/",
-    icon: <AppIcons.home/>,
-    
+    icon: <AppIcons.home />,
   },
   {
-    name: "Invoices",
+    name: "Facturas",
     route: "/invoices",
-    icon: <AppIcons.invoice/>,
+    icon: <AppIcons.invoice />,
   },
   {
-    name: "Logout",
+    name: "Crear Factura",
+    route: "/creteinvoice",
+    icon: <AppIcons.createInvoice />,
+  },
+  {
+    name: "Cerrar Sesión",
     route: "/logout",
     icon: <AppIcons.logout />,
   },
-
 ];
-
 
 export const AppRoutes = () =>
   useRoutes([
@@ -41,7 +43,7 @@ export const AppRoutes = () =>
       element: <Login />,
     },
     {
-      element: <RequireAuth />, 
+      element: <RequireAuth />,
       children: [
         {
           path: "/",
@@ -50,6 +52,7 @@ export const AppRoutes = () =>
             { index: true, element: <Navigate to="/dashboard" replace /> },
             { path: "dashboard", element: <Home /> },
             { path: "invoices", element: <Invoices /> },
+            { path: "creteinvoice", element: <CreateInvoice /> },
           ],
         },
       ],
