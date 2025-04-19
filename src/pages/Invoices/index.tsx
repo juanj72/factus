@@ -16,7 +16,7 @@ type BillWithDetails = Bill & {
   bill: {
     qr_image: string;
     public_url: string;
-    qr:string
+    qr: string;
   };
 
   company: {
@@ -225,25 +225,31 @@ export const Invoices = () => {
             </tbody>
           </table>
           {/* TODO: separar modal a otro componente para mas reusabilidad */}
-          {selectedInvoice && ( 
-            <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
-              <div className="bg-white rounded-lg shadow-lg p-6 max-w-2xl w-full relative overflow-y-auto max-h-[90vh]">
+          {selectedInvoice && (
+            <div className="fixed inset-0 bg-white/30 backdrop-blur-md flex justify-center items-center z-50 p-4">
+              <div className="bg-white rounded-2xl shadow-2xl w-full max-w-xl relative overflow-y-auto max-h-[90vh] p-6 space-y-6">
                 <button
                   onClick={() => setSelectedInvoice(null)}
-                  className="absolute top-2 right-2 text-gray-500 hover:text-gray-800"
+                  className="absolute top-4 right-4 text-gray-400 hover:text-gray-700 text-xl"
+                  aria-label="Cerrar"
                 >
-                  ✕
+                  &times;
                 </button>
 
                 {loadingDetail ? (
-                  <p>Cargando detalle...</p>
+                  <div className="text-center py-10 text-gray-600">
+                    Cargando detalle...
+                  </div>
                 ) : (
                   <>
-                    <h2 className="text-xl font-bold mb-4">
-                      Factura #{selectedInvoice.number}
+                    <h2 className="text-2xl font-bold text-gray-800">
+                      Factura{" "}
+                      <span className="text-blue-600">
+                        #{selectedInvoice.number}
+                      </span>
                     </h2>
 
-                    <div className="mb-4">
+                    <div className="text-sm text-gray-700 space-y-1">
                       <p>
                         <strong>Cliente:</strong>{" "}
                         {selectedInvoice.customer?.names}
@@ -266,44 +272,58 @@ export const Invoices = () => {
                       </p>
                     </div>
 
-                    <div className="mb-4">
-                      <h3 className="font-semibold">QR</h3>
+                    <div className="text-center">
+                      <h3 className="text-sm font-semibold text-gray-700 mb-2">
+                        Código QR
+                      </h3>
                       <img
                         src={selectedInvoice.bill.qr_image}
                         alt="QR Factura"
-                        className="max-w-xs"
+                        className="mx-auto w-40 h-40 rounded"
                       />
                     </div>
-                    <div>
+
+                    <div className="flex justify-center gap-6 text-sm text-blue-600 underline">
                       <a
-                        className="text-blue-600"
                         target="_blank"
+                        rel="noopener noreferrer"
                         href={selectedInvoice.bill.public_url}
+                        className="hover:text-blue-800"
                       >
-                        Ver pdf
+                        Ver PDF
                       </a>
-                    </div>
-                    <div>
                       <a
-                        className="text-blue-600"
                         target="_blank"
+                        rel="noopener noreferrer"
                         href={selectedInvoice.bill.qr}
+                        className="hover:text-blue-800"
                       >
                         Ver en la DIAN
                       </a>
                     </div>
 
                     <div>
-                      <h3 className="font-semibold mb-2">Items</h3>
-                      <ul className="space-y-2">
+                      <h3 className="text-sm font-semibold text-gray-700 mb-2">
+                        Items
+                      </h3>
+                      <ul className="space-y-3">
                         {selectedInvoice.items?.map((item, i) => (
-                          <li key={i} className="border p-2 rounded">
-                            <p>
-                              <strong>{item.name}</strong>
+                          <li
+                            key={i}
+                            className="border rounded-lg p-3 shadow-sm"
+                          >
+                            <p className="font-semibold text-gray-800">
+                              {item.name}
                             </p>
-                            <p>Cantidad: {item.quantity}</p>
-                            <p>Precio: ${item.price}</p>
-                            <p>Total: ${item.total}</p>
+                            <p className="text-sm text-gray-600">
+                              Cantidad: {item.quantity}
+                            </p>
+                            <p className="text-sm text-gray-600">
+                              Precio: ${Number(item.price).toLocaleString()}
+                            </p>
+                            <p className="text-sm text-gray-600">
+                              Total: ${Number(item.total).toLocaleString()}
+                            </p>
                           </li>
                         ))}
                       </ul>

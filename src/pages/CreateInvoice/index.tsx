@@ -1,5 +1,6 @@
 import { use, useEffect, useState } from "react";
 import api from "../../../src/api/axiosInstance";
+import Swal from "sweetalert2";
 
 export const CreateInvoice = () => {
   const [form, setForm] = useState({
@@ -112,11 +113,22 @@ export const CreateInvoice = () => {
     setLoading(true); // inicia loading
     try {
       const response = await api.post("/v1/bills/validate", form);
-      alert("Factura creada correctamente");
+      Swal.fire({
+        title: "Confirmado",
+        text:
+          "Facturada " + response.data.data.bill.number + "creada exitosamente",
+        icon: "success",
+        confirmButtonText: "Entendido",
+      });
       console.log(response.data);
     } catch (error) {
       console.error(error);
-      alert("Error al crear la factura: " + error);
+      Swal.fire({
+        title: "Error!",
+        text: "No se pudo crear la factura",
+        icon: "error",
+        confirmButtonText: "Entendido",
+      });
     } finally {
       setLoading(false); // termina loading
     }
@@ -128,12 +140,14 @@ export const CreateInvoice = () => {
       <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4">
         <input
           type="text"
+          required
           placeholder="Código de Referencia"
           value={form.reference_code}
           onChange={(e) => handleChange(e, ["reference_code"])}
           className="border p-2 rounded"
         />
         <input
+          required
           type="text"
           placeholder="Observación"
           value={form.observation}
@@ -141,6 +155,7 @@ export const CreateInvoice = () => {
           className="border p-2 rounded"
         />
         <select
+          required
           value={form.numbering_range_id}
           onChange={(e) => handleChange(e, ["numbering_range_id"])}
           className="border p-2 rounded"
@@ -155,6 +170,7 @@ export const CreateInvoice = () => {
 
         <h2 className="font-semibold mt-4">Datos del Cliente</h2>
         <input
+          required
           type="text"
           placeholder="Identificación"
           value={form.customer.identification}
@@ -162,6 +178,7 @@ export const CreateInvoice = () => {
           className="border p-2 rounded"
         />
         <input
+          required
           type="text"
           placeholder="Nombre"
           value={form.customer.names}
@@ -169,6 +186,7 @@ export const CreateInvoice = () => {
           className="border p-2 rounded"
         />
         <input
+          required
           type="text"
           placeholder="Email"
           value={form.customer.email}
@@ -176,6 +194,7 @@ export const CreateInvoice = () => {
           className="border p-2 rounded"
         />
         <input
+          required
           type="text"
           placeholder="Teléfono"
           value={form.customer.phone}
@@ -183,6 +202,7 @@ export const CreateInvoice = () => {
           className="border p-2 rounded"
         />
         <input
+          required
           type="text"
           placeholder="Dirección"
           value={form.customer.address}
@@ -190,6 +210,7 @@ export const CreateInvoice = () => {
           className="border p-2 rounded"
         />
         <select
+          required
           value={form.customer.municipality_id}
           onChange={(e) => handleChange(e, ["customer", "municipality_id"])}
           className="border p-2 rounded"
@@ -202,6 +223,7 @@ export const CreateInvoice = () => {
           ))}
         </select>
         <select
+          required
           value={form.customer.identification_document_id}
           onChange={(e) =>
             handleChange(e, ["customer", "identification_document_id"])
@@ -216,6 +238,7 @@ export const CreateInvoice = () => {
           ))}
         </select>
         <select
+          required
           value={form.customer.tribute_id}
           onChange={(e) => handleChange(e, ["customer", "tribute_id"])}
           className="border p-2 rounded"
@@ -232,6 +255,7 @@ export const CreateInvoice = () => {
         {form.items.map((item, index) => (
           <div key={index} className="border p-4 rounded grid gap-2">
             <input
+              required
               type="text"
               placeholder="Codigo de referencia"
               value={item.code_reference}
@@ -243,6 +267,7 @@ export const CreateInvoice = () => {
               className="border p-2 rounded"
             />
             <input
+              required
               type="text"
               placeholder="Nombre del producto"
               value={item.name}
@@ -254,6 +279,7 @@ export const CreateInvoice = () => {
               className="border p-2 rounded"
             />
             <input
+              required
               type="number"
               placeholder="Valor del producto"
               value={item.price}
@@ -266,6 +292,7 @@ export const CreateInvoice = () => {
             />
 
             <input
+              required
               type="number"
               placeholder="Cantidad"
               value={item.quantity}
@@ -277,6 +304,7 @@ export const CreateInvoice = () => {
               className="border p-2 rounded"
             />
             <select
+              required
               value={item.unit_measure_id}
               onChange={(e) => {
                 const newItems = [...form.items];
@@ -297,6 +325,7 @@ export const CreateInvoice = () => {
         <h2>Metodo de pago</h2>
         <div className="border p-4 rounded grid gap-2">
           <select
+            required
             value={form.payment_method_code}
             onChange={(e) => handleChange(e, ["payment_method_code"])}
           >
